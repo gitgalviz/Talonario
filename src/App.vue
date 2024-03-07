@@ -1,6 +1,6 @@
 <template>
   <div class="app">
-    <div class="cont_titulo">
+    <div class="cont_titulo" :style="{ backgroundColor: color }">
       <h1 class="text_titulo">Talonario</h1>
     </div>
     <div :class="Alerta()">
@@ -10,7 +10,7 @@
     </div>
     <div class="container" v-if="RegistroTalonario">
       <div class="cont_form">
-        <div class="form">
+        <div class="form" :style="{ backgroundColor: color}">
           <div class="cont_titulo_form">
             <p class="text_titulo_form">Configurar talonario</p>
           </div>
@@ -48,7 +48,7 @@
       </div>
     </div>
     <div class="cont_forma_registro" v-if="RegistrarDueño">
-      <div class="cont_form_registro">
+      <div class="cont_form_registro" :style="{ backgroundColor: color}">
         <p class="nam_div_registro">Registro de boletas</p>
         <div class="cont_nombre">
           <input type="text" placeholder="Nombre" v-model="nombre">
@@ -165,7 +165,7 @@
       </div>
     </div>
     <div class="cont_options_boletas" v-if="cont_options_boletas">
-      <div class="options_boletas">
+      <div class="options_boletas" :style="{ backgroundColor: color }">
         <div class="cont_btn_datos">
           <button @click="DatosDueño()">Información dueño</button>
         </div>
@@ -181,7 +181,7 @@
       </div>
     </div>
     <div class="cont_datos_dueño" v-if="cont_datos_dueño">
-      <div class="datos_dueño">
+      <div class="datos_dueño" :style="{ backgroundColor: color }">
         <div class="info_nombre">
           <p class="text_info_nombre">Nombre:</p>
           <p class="text_nombre">{{ dueño.nombre }}</p>
@@ -200,6 +200,16 @@
         </div>
         <div class="cont_btn_atras">
           <button @click="atras3()">Regresar</button>
+        </div>
+      </div>
+    </div>
+    <div class="cont_personalizar" v-if="contPersonalizar">
+      <div class="sub_cont_personalizar"  :style="{ backgroundColor: color }">
+        <div class="cont_input_color">
+          <input type="color" v-model="color">
+        </div>
+        <div class="cont_btn_atras">
+          <button @click="atras4()">Regresar</button>
         </div>
       </div>
     </div>
@@ -240,6 +250,8 @@ const alerta = ref('');
 const cont_datos_dueño = ref(false);
 const id = ref(0);
 let i = ref(0);
+let color = ref("#ccc")
+const contPersonalizar = ref(false)
 
 const boleta = ref([]);
 const boletasCompradas = ref([]);
@@ -390,6 +402,11 @@ const atras3 = () => {
   cuerpo.value = true;
 };
 
+const atras4 = () => {
+  contPersonalizar.value = false;
+  cuerpo.value = true;
+};
+
 const getBoletaColor = (estado) => {
   switch (estado) {
     case 0:
@@ -418,6 +435,8 @@ const listarBoletas = () => {
 };
 
 const personalizarColores = () => {
+  cuerpo.value = false;
+  contPersonalizar.value = true;
 };
 
 const imprimir = () => {
@@ -451,10 +470,6 @@ const imprimir = () => {
 .app {
   display: grid;
   grid-template-rows: 10vh, 80vh, 10vh;
-}
-
-.cont_titulo {
-  background-color: #ccc;
 }
 
 .text_titulo {
@@ -499,7 +514,6 @@ const imprimir = () => {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: #ccc;
   border-radius: 10px;
   padding: 20px;
 }
@@ -538,7 +552,6 @@ const imprimir = () => {
 }
 
 .form {
-  background-color: #ccc;
   padding: 20px;
   border-radius: 5px;
 }
@@ -853,7 +866,6 @@ input[type="text"] {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: #ccc;
   border-radius: 10px;
   padding: 20px;
 }
@@ -897,7 +909,6 @@ input[type="text"] {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: #ccc;
   border-radius: 10px;
   padding: 20px;
 }
@@ -917,5 +928,37 @@ input[type="text"] {
   font-size: 20px;
   font-weight: bold;
   margin-right: 10px;
+}
+
+.cont_personalizar{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 90vh;
+  width: 100%;
+}
+
+.sub_cont_personalizar{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 20%;
+  height: 20vh;
+}
+
+.cont_input_color{
+  width: 100%;
+  padding: 0 2%;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 10px;
+}
+
+.cont_input_color input{
+  width: 90%;
+  border: none;
+  border-radius: 8px;
+  height: 10vh;
 }
 </style>
