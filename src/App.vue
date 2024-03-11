@@ -961,4 +961,29 @@ input[type="text"] {
   border-radius: 8px;
   height: 10vh;
 }
+
+@media (max-width: 1200px) {
+  .cuerpo_info{
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .cont_info_body, .cont_acciones{
+    width: 40%;
+  }
+
+  .cont_info_body{
+    margin-bottom: 50px;
+  }
+
+  .cont_acciones{
+    margin-top: 50px;
+  }
+}
+
+@media(max-width: 600px){
+  .cont_info_body, .cont_acciones{
+    width: 80%;
+  }
+}
 </style>
