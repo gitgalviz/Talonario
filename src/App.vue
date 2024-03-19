@@ -1,6 +1,6 @@
 <template>
-  <div class="app">
-    <div class="cont_titulo" :style="{ backgroundColor: color }">
+  <div class="app" :style="{ backgroundColor: color1 }">
+    <div class="cont_titulo">
       <h1 class="text_titulo">Talonario</h1>
     </div>
     <div :class="Alerta()">
@@ -10,7 +10,7 @@
     </div>
     <div class="container" v-if="RegistroTalonario">
       <div class="cont_form">
-        <div class="form" :style="{ backgroundColor: color}">
+        <div class="form" :style="{ backgroundColor: color3 }">
           <div class="cont_titulo_form">
             <p class="text_titulo_form">Configurar talonario</p>
           </div>
@@ -31,6 +31,7 @@
             </select>
           </div>
           <div class="cont_num_boletas">
+            <p class="text_tipos_loterias">Cantidad de balotas</p>
             <select v-model="selectedCantidad">
               <option value="25">25</option>
               <option value="50">50</option>
@@ -39,17 +40,21 @@
             </select>
           </div>
           <div class="cont_fecha">
+            <p class="text_tipos_loterias">Fecha</p>
             <input type="date" v-model="fecha">
           </div>
           <div class="cont_btn">
-            <button class="btn" @click="crearTalonario()">Crear talonario</button>
+            <button class="btn" :style="{ backgroundColor: color2 }" @click="crearTalonario()">Crear talonario</button>
           </div>
         </div>
       </div>
     </div>
     <div class="cont_forma_registro" v-if="RegistrarDueño">
-      <div class="cont_form_registro" :style="{ backgroundColor: color}">
+      <div class="cont_form_registro" :style="{ backgroundColor: color3 }">
         <p class="nam_div_registro">Registro de boletas</p>
+        <div class="cont_identificacion">
+          <p class="text_identificacion">Numero de boleta: {{ boleta[boletaSeleccionada] ? boleta[boletaSeleccionada].item : '' }}</p>
+        </div>
         <div class="cont_nombre">
           <input type="text" placeholder="Nombre" v-model="nombre">
         </div>
@@ -67,12 +72,15 @@
           </select>
         </div>
         <div class="cont_btn_registro">
-          <button class="btn_registro" @click="registrar()">Registrar</button>
+          <button :style="{ backgroundColor: color2 }" class="btn_registro" @click="registrar()">Registrar</button>
+        </div>
+        <div class="cont_btn_atras">
+          <button :style="{ backgroundColor: color2 }" @click="atras5()">Regresar</button>
         </div>
       </div>
     </div>
     <div class="cuerpo_info" v-if="cuerpo">
-      <div class="cont_info_body">
+      <div class="cont_info_body" :style="{ backgroundColor: color3 }">
         <div class="cont_titulo_body">
           <p class="text_body">Información</p>
         </div>
@@ -110,7 +118,7 @@
             </div>
           </div>
           <div class="cont_btn_editar">
-            <button class="btn_editar" @click="editarTalonario()">Editar</button>
+            <button :style="{ backgroundColor: color2 }" class="btn_editar" @click="editarTalonario()">Editar</button>
           </div>
         </div>
       </div>
@@ -123,22 +131,22 @@
           </div>
         </div>
       </div>
-      <div class="cont_acciones">
+      <div class="cont_acciones" :style="{ backgroundColor: color3 }">
         <div class="cont_titulo_acciones">
           <p class="text_acciones">Acciones</p>
         </div>
         <div class="cont_info_acciones">
           <div class="cont_btn1">
-            <button class="btn1">Estado</button>
+            <button :style="{ backgroundColor: color2 }" class="btn1">Estado</button>
           </div>
           <div class="cont_btn2">
-            <button class="btn2" @click="listarBoletas()">Listar tus boletas</button>
+            <button :style="{ backgroundColor: color2 }" class="btn2" @click="listarBoletas()">Listar tus boletas</button>
           </div>
           <div class="cont_btn3">
-            <button class="btn3" @click="personalizarColores()">Personalizar talonario</button>
+            <button :style="{ backgroundColor: color2 }" class="btn3" @click="personalizarColores()">Personalizar talonario</button>
           </div>
           <div class="cont_btn4">
-            <button class="btn4" @click="imprimir()">Generar PDF</button>
+            <button :style="{ backgroundColor: color2 }" class="btn4" @click="imprimir()">Generar PDF</button>
           </div>
         </div>
       </div>
@@ -165,23 +173,23 @@
       </div>
     </div>
     <div class="cont_options_boletas" v-if="cont_options_boletas">
-      <div class="options_boletas" :style="{ backgroundColor: color }">
+      <div class="options_boletas" :style="{ backgroundColor: color3 }">
         <div class="cont_btn_datos">
-          <button @click="DatosDueño()">Información dueño</button>
+          <button :style="{ backgroundColor: color2 }" @click="DatosDueño()">Información dueño</button>
         </div>
         <div class="cont_btn_pagar" v-if="pagarBoleta">
-          <button @click="PagarBoleta()">Pagar boleta</button>
+          <button :style="{ backgroundColor: color2 }" @click="PagarBoleta()">Pagar boleta</button>
         </div>
         <div class="cont_btn_liberar">
-          <button @click="liberarBalota()">Liberar balota</button>
+          <button :style="{ backgroundColor: color2 }" @click="liberarBalota()">Liberar balota</button>
         </div>
         <div class="cont_btn_atras">
-          <button @click="atras2()">Regresar</button>
+          <button :style="{ backgroundColor: color2 }" @click="atras2()">Regresar</button>
         </div>
       </div>
     </div>
     <div class="cont_datos_dueño" v-if="cont_datos_dueño">
-      <div class="datos_dueño" :style="{ backgroundColor: color }">
+      <div class="datos_dueño" :style="{ backgroundColor: color3 }">
         <div class="info_nombre">
           <p class="text_info_nombre">Nombre:</p>
           <p class="text_nombre">{{ dueño.nombre }}</p>
@@ -199,17 +207,26 @@
           <p class="text_pago">{{ dueño.pago }}</p>
         </div>
         <div class="cont_btn_atras">
-          <button @click="atras3()">Regresar</button>
+          <button :style="{ backgroundColor: color2 }" @click="atras3()">Regresar</button>
         </div>
       </div>
     </div>
     <div class="cont_personalizar" v-if="contPersonalizar">
-      <div class="sub_cont_personalizar"  :style="{ backgroundColor: color }">
-        <div class="cont_input_color">
-          <input type="color" v-model="color">
+      <div class="sub_cont_personalizar" :style="{ backgroundColor: color3 }">
+        <div class="cont_input_color1">
+          <p class="text_per">Fondo</p>
+          <input type="color" v-model="color1">
+        </div>
+        <div class="cont_input_color2">
+          <p class="text_per">Botones</p>
+          <input type="color" v-model="color2">
+        </div>
+        <div class="cont_input_color3">
+          <p class="text_per">Contenedores</p>
+          <input type="color" v-model="color3">
         </div>
         <div class="cont_btn_atras">
-          <button @click="atras4()">Regresar</button>
+          <button :style="{ backgroundColor: color2 }" @click="atras4()">Regresar</button>
         </div>
       </div>
     </div>
@@ -250,7 +267,9 @@ const alerta = ref('');
 const cont_datos_dueño = ref(false);
 const id = ref(0);
 let i = ref(0);
-let color = ref("#ccc")
+let color1 = ref("#ffffff")
+let color2 = ref("#ffffff")
+let color3 = ref("#cccccc")
 const contPersonalizar = ref(false)
 
 const boleta = ref([]);
@@ -274,18 +293,21 @@ const Alerta = () => {
 };
 
 const crearTalonario = () => {
-  if(premio.value === '' || Precio.value === '' || selectedLoteria.value === '' || selectedCantidad.value === '' || fecha.value === '') {
+  if (premio.value === '' || Precio.value === '' || selectedLoteria.value === '' || selectedCantidad.value === '' || fecha.value === '') {
     alerta.value = 'Todos los campos son obligatorios';
     ocultarAlerta();
     return;
-  }
-  else {
+  } else if (new Date(fecha.value) <= new Date()) {
+    alerta.value = 'La fecha debe ser mayor a la actual';
+    ocultarAlerta();
+    return;
+  } else {
     premio_Verificado.value = premio.value;
     Precio_Verificado.value = Precio.value;
     selectedLoteria_Verificado.value = selectedLoteria.value;
     fecha_Verificado.value = fecha.value;
     const cantidad = selectedCantidad.value;
-  
+
     for (let i = 0; i < cantidad; i++) {
       boleta.value.push({
         item: i + 1,
@@ -295,7 +317,7 @@ const crearTalonario = () => {
     RegistroTalonario.value = false;
     cuerpo.value = true;
   }
-};
+}
 
 const comprarBoleta = (index) => {
   boletaSeleccionada.value = index;
@@ -327,7 +349,7 @@ const registrar = () => {
     ocultarAlerta();
     return;
   }
-  else{
+  else {
     if (selectedBoleta.value === 'Si') {
       estado.value = 1;
       estadoBoleta.value = "Pagada";
@@ -390,7 +412,7 @@ const liberarBalota = () => {
 const atras = () => {
   balotasCompradas.value = false;
   cuerpo.value = true;
-};  
+};
 
 const atras2 = () => {
   cont_options_boletas.value = false;
@@ -404,6 +426,11 @@ const atras3 = () => {
 
 const atras4 = () => {
   contPersonalizar.value = false;
+  cuerpo.value = true;
+};
+
+const atras5 = () => {
+  RegistrarDueño.value = false;
   cuerpo.value = true;
 };
 
@@ -472,6 +499,10 @@ const imprimir = () => {
   grid-template-rows: 10vh, 80vh, 10vh;
 }
 
+.cont_titulo{
+  background-color: #cccccc;
+}
+
 .text_titulo {
   display: flex;
   justify-content: center;
@@ -485,7 +516,7 @@ const imprimir = () => {
   display: none;
 }
 
-.alerta2{
+.alerta2 {
   position: absolute;
   width: 100%;
   height: 100vh;
@@ -574,7 +605,6 @@ input[type="date"] {
 }
 
 .btn {
-  background-color: white;
   padding: 10px 20px;
   border: none;
   border-radius: 4px;
@@ -602,7 +632,6 @@ input[type="text"] {
 
 
 .btn_registro {
-  background-color: #4caf50;
   color: rgb(0, 0, 0);
   padding: 10px 20px;
   border: none;
@@ -635,7 +664,6 @@ input[type="text"] {
 }
 
 .cont_info_body {
-  background-color: #f0f0f0;
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -667,7 +695,6 @@ input[type="text"] {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  background-color: #f9f9f9;
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -691,7 +718,6 @@ input[type="text"] {
   border: none;
   border-radius: 4px;
   cursor: pointer;
-  background-color: #ccc;
   color: #000000;
   width: 200px;
   margin-right: 30px;
@@ -707,7 +733,6 @@ input[type="text"] {
   border: none;
   border-radius: 4px;
   cursor: pointer;
-  background-color: #ccc;
   color: #000000;
   width: 200px;
   margin-right: 30px;
@@ -884,7 +909,6 @@ input[type="text"] {
   border: none;
   border-radius: 4px;
   cursor: pointer;
-  background-color: #ffffff;
   color: #000000;
   width: 200px;
 }
@@ -894,7 +918,7 @@ input[type="text"] {
 .cont_btn_liberar button:hover,
 .cont_btn_atras button:hover {
   background-color: #1aff35;
-} 
+}
 
 .cont_datos_dueño {
   display: flex;
@@ -930,7 +954,7 @@ input[type="text"] {
   margin-right: 10px;
 }
 
-.cont_personalizar{
+.cont_personalizar {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -938,51 +962,61 @@ input[type="text"] {
   width: 100%;
 }
 
-.sub_cont_personalizar{
+.sub_cont_personalizar {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   width: 20%;
-  height: 20vh;
+  height: 42vh;
 }
 
-.cont_input_color{
+.cont_input_color1, .cont_input_color2, .cont_input_color3{
   width: 100%;
-  padding: 0 2%;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
   margin-bottom: 10px;
 }
 
-.cont_input_color input{
+.text_per {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.cont_input_color1 input, .cont_input_color2 input, .cont_input_color3 input {
   width: 90%;
   border: none;
-  border-radius: 8px;
-  height: 10vh;
+  border-radius: 10px;
+  height: 6vh;
+  background: none;
 }
 
 @media (max-width: 1200px) {
-  .cuerpo_info{
+  .cuerpo_info {
     flex-direction: column;
     align-items: center;
   }
 
-  .cont_info_body, .cont_acciones{
+  .cont_info_body,
+  .cont_acciones {
     width: 40%;
   }
 
-  .cont_info_body{
+  .cont_info_body {
     margin-bottom: 50px;
   }
 
-  .cont_acciones{
+  .cont_acciones {
     margin-top: 50px;
   }
 }
 
-@media(max-width: 600px){
-  .cont_info_body, .cont_acciones{
+@media(max-width: 600px) {
+
+  .cont_info_body,
+  .cont_acciones {
     width: 80%;
   }
 }
